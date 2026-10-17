@@ -11,7 +11,7 @@
 
 // TODO: #include <tree_sitter/tree_sitter_%%LANGNAME%%.h> instead
 // might need Pkg_config changes so delaying.
-extern TSLanguage *tree_sitter_%%LANGNAME%%(void);
+extern const TSLanguage *tree_sitter_%%LANGNAME%%(void);
 
 typedef struct _parser {
         TSParser *parser;
@@ -32,7 +32,7 @@ static struct custom_operations parser_custom_ops = {
 
 // OCaml function
 CAMLprim value octs_create_parser_%%LANGNAME%%(value unit) {
-        CAMLparam0();
+        CAMLparam1(unit);
         CAMLlocal1(v);
 
         parser_W parserWrapper;
@@ -43,4 +43,4 @@ CAMLprim value octs_create_parser_%%LANGNAME%%(value unit) {
         memcpy(Data_custom_val(v), &parserWrapper, sizeof(parser_W));
         ts_parser_set_language(parser, tree_sitter_%%LANGNAME%%());
         CAMLreturn(v);
-};
+}
